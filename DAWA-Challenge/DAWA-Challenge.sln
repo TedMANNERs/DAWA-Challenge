@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "DAWA-Challenge1", "DAWA-Challenge1\DAWA-Challenge1.dtproj", "{2170D148-99CA-4AC8-AAF1-46D1534233C4}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "DAWA-Challenge2", "DAWA-Challenge2\DAWA-Challenge2.dtproj", "{410F3A76-E135-46FB-9EBB-E59BED2585E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2170D148-99CA-4AC8-AAF1-46D1534233C4}.Development|Default.ActiveCfg = Development
+		{2170D148-99CA-4AC8-AAF1-46D1534233C4}.Development|Default.Build.0 = Development
+		{410F3A76-E135-46FB-9EBB-E59BED2585E3}.Development|Default.ActiveCfg = Development
+		{410F3A76-E135-46FB-9EBB-E59BED2585E3}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {602D4AFA-5BC2-455B-91B4-40B81A5225C1}
+	EndGlobalSection
+EndGlobal
