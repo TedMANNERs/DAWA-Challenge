@@ -26,7 +26,7 @@
           <SSIS:Property SSIS:Name="CreatorComputerName">DAWA-05</SSIS:Property>
           <SSIS:Property SSIS:Name="Description">
           </SSIS:Property>
-          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8Kb/xH6Xck2FHuipgaJNpQAAAAACAAAAAAAQZgAAAAEAACAAAABmdEH6L/Nxov5PeC6xRQRtPXC4xGrwAjZSmYDBM+QcEwAAAAAOgAAAAAIAACAAAADXutQ+sZtkeDB8nxFsQd3LY4hfz6Tnxf3NXKfUS1IoppAAAABw1yXZT6ziMhRpHihybjXtNFbQAfIx0tQgXrfvnp7clh6d/jyNRx0oHICzrMGDtMTma09sGnZ0bgGXuGaRUfPj9m+pjHxElzJlYv2FYYKSybJhnWU0KA3zuUra8Ciw3yzTTSwh+gDjkkbTkocgp7puGMPzDElXTnE+Ola48ivibMZYjVTj323IO5bw2/xsj/FAAAAAMTap4NTt4TDqFdd3zHY76tQJkggQXGpioDjgVxUIjmm41uby/veR6n5lEl6eLpsCCh3mrC1vKVTJsJxDk4Xdfg==</SSIS:Property>
+          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8Kb/xH6Xck2FHuipgaJNpQAAAAACAAAAAAAQZgAAAAEAACAAAACh7U+Q6n1lYSEMlR5XSdDHdiZOy2enBFtVqYInfi8umQAAAAAOgAAAAAIAACAAAAAWf8/Ga95T+AeFdi9zDzbYnUHJkm+HXLOUOEbn3RkODJAAAACsFzM7q070fm0fKKzlypB32hwT71TpTjuqX/JBuMc4ltfxzYPiP2F5C/7H+MDRXEoG5EU+lqK/usytWQMWfVFOinHPiGrJ3Gb0fr8TrWUPFu0CujqCQo6NUVXobwJgIS0XJE5RYJn3gvevJs/6yrPSvvu7t5Q6eoutb63TY8HGh+xLtJLu0Ned1zHANxsb1E1AAAAAoqEvez47E5Q347ZkbzeokYAKW3VDO4IDbfoH6ah8wxJ4/Tu/bWGHdA1E9Bhb35T8eMz5HZtkR2hKYtRfGKwFwA==</SSIS:Property>
           <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
         </SSIS:Properties>
         <SSIS:Packages>
@@ -42,10 +42,10 @@
                 <SSIS:Property SSIS:Name="Name">Package</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionBuild">32</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionBuild">41</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionComments">
                 </SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionGUID">{0E35436B-E9BD-4630-BB02-44C90EBE89BD}</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionGUID">{651183F6-0420-45BA-9F06-7FEFF91A24A9}</SSIS:Property>
                 <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
                 <SSIS:Property SSIS:Name="Description">
                 </SSIS:Property>
@@ -254,6 +254,21 @@
                     <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                    <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
+                  </SSIS:Properties>
+                </SSIS:Parameter>
+                <SSIS:Parameter SSIS:Name="CM.Distanzkategorien_in_Prozent_pro_Tag.xlsx.ConnectionString">
+                  <SSIS:Properties>
+                    <SSIS:Property SSIS:Name="ID">
+                    </SSIS:Property>
+                    <SSIS:Property SSIS:Name="CreationName">
+                    </SSIS:Property>
+                    <SSIS:Property SSIS:Name="Description">
+                    </SSIS:Property>
+                    <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Value">C:\Users\usera\Desktop\DAWA-Challenge\DAWA-Challenge\Distanzkategorien_in_Prozent_pro_Tag.xlsx</SSIS:Property>
                     <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
                   </SSIS:Properties>
                 </SSIS:Parameter>

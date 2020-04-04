@@ -11,8 +11,8 @@
   DTS:LocaleID="3072"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="33"
-  DTS:VersionGUID="{852D3FA7-2B5B-48E7-8528-E44FC0A69C4C}">
+  DTS:VersionBuild="41"
+  DTS:VersionGUID="{651183F6-0420-45BA-9F06-7FEFF91A24A9}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -34,6 +34,35 @@
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\usera\Desktop\DAWA-Challenge\DAWA-Challenge\Distanzkategorien_in_Prozent_pro_Tag.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Distanzdaten_Archive]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{2E55AD5F-BD0B-4739-9FBD-A046B1741EEF}"
+      DTS:ObjectName="Distanzdaten_Archive">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">"C:\\Users\\usera\\Desktop\\DAWA-Challenge\\DAWA-Challenge\\Archive\\COVID-19_Distanzdaten_"
++ RIGHT("0" + (DT_STR, 4, 1252) DATEPART("yyyy", GETDATE()), 4)
++ RIGHT("0" + (DT_STR, 4, 1252) DATEPART("m", GETDATE()), 2)
++ RIGHT("0" + (DT_STR, 4, 1252) DATEPART("d", GETDATE()), 2)
++ RIGHT("0" + (DT_STR, 4, 1252) DATEPART("Hh", GETDATE()), 2)
++ RIGHT("0" + (DT_STR, 4, 1252) DATEPART("mi", GETDATE()), 2)
++ ".xlsx"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="1"
+          DTS:ConnectionString="C:\Users\usera\Desktop\DAWA-Challenge\DAWA-Challenge\Archive\COVID-19_Distanzdaten_202004041521.xlsx" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Distanzkategorien_in_Prozent_pro_Tag.xlsx]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{E3555E34-6FBB-4306-82CC-8D87BA0D940B}"
+      DTS:ObjectName="Distanzkategorien_in_Prozent_pro_Tag.xlsx">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\Users\usera\Desktop\DAWA-Challenge\DAWA-Challenge\Distanzkategorien_in_Prozent_pro_Tag.xlsx" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -153,6 +182,25 @@
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Fallzahlen_Archive]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{45D43774-5528-490B-B54F-9B2D47967718}"
+      DTS:ObjectName="Fallzahlen_Archive">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">"C:\\Users\\usera\\Desktop\\DAWA-Challenge\\DAWA-Challenge\\Archive\\COVID-19_Fallzahlen_"
++ RIGHT("0" + (DT_STR, 4, 1252) DATEPART("yyyy", GETDATE()), 4)
++ RIGHT("0" + (DT_STR, 4, 1252) DATEPART("m", GETDATE()), 2)
++ RIGHT("0" + (DT_STR, 4, 1252) DATEPART("d", GETDATE()), 2)
++ RIGHT("0" + (DT_STR, 4, 1252) DATEPART("Hh", GETDATE()), 2)
++ RIGHT("0" + (DT_STR, 4, 1252) DATEPART("mi", GETDATE()), 2)
++ ".csv"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="1"
+          DTS:ConnectionString="C:\Users\usera\Desktop\DAWA-Challenge\DAWA-Challenge\Archive\COVID-19_Fallzahlen_202004041521.csv" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -1510,6 +1558,42 @@
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Rename and move Distanzdaten to Archive"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="Task &quot;Dateisystem&quot;"
+      DTS:DTSID="{455CEEA7-37BD-4EF3-9F13-19CA7CE288E7}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Rename and move Distanzdaten to Archive"
+      DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2017 RC1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOperationType="RenameFile"
+          TaskSourcePath="{E3555E34-6FBB-4306-82CC-8D87BA0D940B}"
+          TaskDestinationPath="{2E55AD5F-BD0B-4739-9FBD-A046B1741EEF}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Rename and move Fallzahlen to Archive"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="Task &quot;Dateisystem&quot;"
+      DTS:DTSID="{09F78627-1261-45F3-AEE9-6F7D1B0CE67D}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Rename and move Fallzahlen to Archive"
+      DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2017 RC1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOperationType="RenameFile"
+          TaskSourcePath="{58D02FAF-7538-4C14-B54E-22A2BE221B4C}"
+          TaskDestinationPath="{45D43774-5528-490B-B54F-9B2D47967718}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
@@ -1520,6 +1604,22 @@
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
       DTS:To="Package\Import Covid-19 Data" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{5085F57E-1ED9-4F5A-87C4-07C49F34E992}"
+      DTS:From="Package\Import Covid-19 Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Rename and move Fallzahlen to Archive" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{6A30F8DB-91BA-4E89-8B2F-ECCF78EAAC7D}"
+      DTS:From="Package\Import Covid-19 Data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Rename and move Distanzdaten to Archive" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -1532,7 +1632,7 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="194,42"
           Id="Package\Create tables if not exist"
@@ -1555,6 +1655,82 @@
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,73.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="267,42"
+          Id="Package\Rename and move Fallzahlen to Archive"
+          TopLeft="110,305" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="226.5,196">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="17,109"
+              Start="0,0"
+              End="17,101.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,50.5"
+                    Point2="0,54.5"
+                    Point3="4,54.5" />
+                  <mssgle:LineSegment
+                    End="13,54.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="13,54.5"
+                    Point2="17,54.5"
+                    Point3="17,58.5" />
+                  <mssgle:LineSegment
+                    End="17,101.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="282,42"
+          Id="Package\Rename and move Distanzdaten to Archive"
+          TopLeft="418,306" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="255.333333333333,196">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="303.666666666667,110"
+              Start="0,0"
+              End="303.666666666667,102.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5783132530121" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,40.5783132530121"
+                    Point2="0,44.5783132530121"
+                    Point3="4,44.5783132530121" />
+                  <mssgle:LineSegment
+                    End="299.666666666667,44.5783132530121" />
+                  <mssgle:CubicBezierSegment
+                    Point1="299.666666666667,44.5783132530121"
+                    Point2="303.666666666667,44.5783132530121"
+                    Point3="303.666666666667,48.5783132530121" />
+                  <mssgle:LineSegment
+                    End="303.666666666667,102.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
