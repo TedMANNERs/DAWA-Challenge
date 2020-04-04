@@ -11,8 +11,8 @@
   DTS:LocaleID="3072"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="26"
-  DTS:VersionGUID="{3B8C3563-F5EE-4161-B759-CF7C9CC746FE}">
+  DTS:VersionBuild="33"
+  DTS:VersionGUID="{852D3FA7-2B5B-48E7-8528-E44FC0A69C4C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -59,7 +59,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="date"
-              DTS:DTSID="{E0A5E94B-4754-4B51-9627-21FCC3C33B67}"
+              DTS:DTSID="{F3898929-4B9D-49F8-9515-12E0F3E28605}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -68,7 +68,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="time"
-              DTS:DTSID="{F184E066-59A2-4925-829E-E77BC1EDA245}"
+              DTS:DTSID="{9BE60888-CB06-4D86-94D2-6EA80038851F}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -77,7 +77,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="abbreviation_canton_and_fl"
-              DTS:DTSID="{BEDF9674-9D9B-4302-8186-68D0AF30D533}"
+              DTS:DTSID="{33304238-9003-47EF-94AE-1A2C22DD749E}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -86,7 +86,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ncumul_tested"
-              DTS:DTSID="{D5FC6875-E793-49F9-B810-D09A0F58C7C3}"
+              DTS:DTSID="{44F254DD-7059-4500-884C-C03D2A14268E}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -95,7 +95,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ncumul_conf"
-              DTS:DTSID="{16C1345A-1A8C-4BBF-9083-C04685229355}"
+              DTS:DTSID="{153188D2-300D-437C-8F75-08FFD032A0E4}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -104,7 +104,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ncumul_hosp"
-              DTS:DTSID="{8DF7F3F1-5A25-4634-8275-6A9FC2C2E5DE}"
+              DTS:DTSID="{D4E51519-6538-4A3B-93D8-1DABFF50A3A4}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -113,7 +113,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ncumul_ICU"
-              DTS:DTSID="{22724BA6-AEDB-4DB3-8267-94077B91EE36}"
+              DTS:DTSID="{92B1EA17-E004-4E4B-86B1-ECB226DA1996}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -122,7 +122,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ncumul_vent"
-              DTS:DTSID="{E645A51B-A371-4546-92BB-EDA6053DEF68}"
+              DTS:DTSID="{5DC830EF-F74E-4411-A69B-7AFF52F99E6D}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -131,7 +131,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ncumul_released"
-              DTS:DTSID="{F44B847A-4128-47B2-9496-29AEA5A36E58}"
+              DTS:DTSID="{8E8A4F34-E068-4CE6-A34E-37D77FE3DFA1}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -140,16 +140,16 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ncumul_deceased"
-              DTS:DTSID="{DD5CC383-B828-4F13-B568-BC3FCF0007C8}"
+              DTS:DTSID="{7689DC68-780C-4C45-95DA-7AF72E0CDA30}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
               DTS:ColumnDelimiter="_x000A_"
-              DTS:MaximumWidth="453"
+              DTS:MaximumWidth="1000"
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="source"
-              DTS:DTSID="{65BFB61B-612A-4BD3-A696-870B4BECFB9A}"
+              DTS:DTSID="{EE601D16-799A-4223-9985-3694FF5458FD}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -173,12 +173,13 @@
         <SQLTask:SqlTaskData
           SQLTask:Connection="{39CB56F5-3F96-4C42-A1C7-2B06C996DE34}"
           SQLTask:BypassPrepare="False"
-          SQLTask:SqlStatementSource="if not exists (select * from sysobjects where name='Covid19_Fallzahlen' and xtype='U')&#xA;&#x9;CREATE TABLE Covid19_Fallzahlen (&#xA;&#x9;   id INT NOT NULL IDENTITY PRIMARY KEY&#xA;&#x9;  ,date                       DATE  NOT NULL&#xA;&#x9;  ,time                       VARCHAR(30)&#xA;&#x9;  ,abbreviation_canton_and_fl VARCHAR(2) NOT NULL&#xA;&#x9;  ,ncumul_tested              VARCHAR(30)&#xA;&#x9;  ,ncumul_conf                VARCHAR(30)&#xA;&#x9;  ,ncumul_hosp                VARCHAR(30)&#xA;&#x9;  ,ncumul_ICU                 VARCHAR(30)&#xA;&#x9;  ,ncumul_vent                VARCHAR(30)&#xA;&#x9;  ,ncumul_released            VARCHAR(30)&#xA;&#x9;  ,ncumul_deceased            VARCHAR(30)&#xA;&#x9;  ,source                     VARCHAR(200)&#xA;&#x9;);&#xA;&#xA;if not exists (select * from sysobjects where name='Covid19_Distanzkategorien' and xtype='U')&#xA;&#x9;CREATE TABLE Covid19_Distanzkategorien(&#xA;&#x9;   Id INT NOT NULL IDENTITY  PRIMARY KEY&#xA;&#x9;  ,Datum              DATE  NOT NULL &#xA;&#x9;  ,Beschreibung       NVARCHAR(200) NOT NULL&#xA;&#x9;  ,Ausprägung         NVARCHAR(50) NOT NULL&#xA;&#x9;  ,Total              NUMERIC(20,15) NOT NULL&#xA;&#x9;  ,Kanton_Zürich_Ja   NUMERIC(20,15) NOT NULL&#xA;&#x9;  ,Kanton_Zürich_Nein NUMERIC(20,15) NOT NULL&#xA;&#x9;  ,Alter_1529         NUMERIC(20,15) NOT NULL&#xA;&#x9;  ,Alter_3064         NUMERIC(20,15) NOT NULL&#xA;&#x9;  ,Alter_6579         NUMERIC(20,15) NOT NULL&#xA;&#x9;  ,Männlich           NUMERIC(20,15) NOT NULL&#xA;&#x9;  ,Weiblich           NUMERIC(20,15) NOT NULL&#xA;&#x9;  ,Städtisch          NUMERIC(20,15) NOT NULL&#xA;&#x9;  ,Ländlich           NUMERIC(20,15) NOT NULL&#xA;&#x9;  ,Erwerbstätig       NUMERIC(20,15) NOT NULL&#xA;&#x9;  ,In_Ausbildung      NUMERIC(20,15) NOT NULL&#xA;&#x9;  ,Nicht_Erwerbstätig NUMERIC(20,15) NOT NULL&#xA;&#x9;);" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="IF EXISTS (SELECT * FROM sysobjects WHERE name='Covid19_Fallzahlen' AND xtype='U')&#xA;&#x9;DROP TABLE Covid19_Fallzahlen;&#xA;&#xA;CREATE TABLE Covid19_Fallzahlen (&#xA;&#x9;id INT NOT NULL IDENTITY PRIMARY KEY&#xA;&#x9;,date                       DATE  NOT NULL&#xA;&#x9;,time                       VARCHAR(30)&#xA;&#x9;,abbreviation_canton_and_fl VARCHAR(2) NOT NULL&#xA;&#x9;,ncumul_tested              VARCHAR(30)&#xA;&#x9;,ncumul_conf                VARCHAR(30)&#xA;&#x9;,ncumul_hosp                VARCHAR(30)&#xA;&#x9;,ncumul_ICU                 VARCHAR(30)&#xA;&#x9;,ncumul_vent                VARCHAR(30)&#xA;&#x9;,ncumul_released            VARCHAR(30)&#xA;&#x9;,ncumul_deceased            VARCHAR(30)&#xA;&#x9;,source                     VARCHAR(1000)&#xA;);&#xA;&#x9;&#xA;IF EXISTS (SELECT * FROM sysobjects WHERE name='Covid19_Distanzkategorien' AND xtype='U')&#xA;&#x9;DROP TABLE Covid19_Distanzkategorien;&#xA;&#xA;CREATE TABLE Covid19_Distanzkategorien(&#xA;   Id INT NOT NULL IDENTITY  PRIMARY KEY&#xA;  ,Datum              DATE  NOT NULL &#xA;  ,Beschreibung       NVARCHAR(200) NOT NULL&#xA;  ,Ausprägung         NVARCHAR(50) NOT NULL&#xA;  ,Total              NUMERIC(20,15) NOT NULL&#xA;  ,Kanton_Zürich_Ja   NUMERIC(20,15) NOT NULL&#xA;  ,Kanton_Zürich_Nein NUMERIC(20,15) NOT NULL&#xA;  ,Alter_1529         NUMERIC(20,15) NOT NULL&#xA;  ,Alter_3064         NUMERIC(20,15) NOT NULL&#xA;  ,Alter_6579         NUMERIC(20,15) NOT NULL&#xA;  ,Männlich           NUMERIC(20,15) NOT NULL&#xA;  ,Weiblich           NUMERIC(20,15) NOT NULL&#xA;  ,Städtisch          NUMERIC(20,15) NOT NULL&#xA;  ,Ländlich           NUMERIC(20,15) NOT NULL&#xA;  ,Erwerbstätig       NUMERIC(20,15) NOT NULL&#xA;  ,In_Ausbildung      NUMERIC(20,15) NOT NULL&#xA;  ,Nicht_Erwerbstätig NUMERIC(20,15) NOT NULL&#xA;);" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Import Covid-19 Data"
       DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
       DTS:Description="Datenflusstask"
       DTS:DTSID="{11F211B1-F7B2-45C7-AD35-7B8ED6BD0AEA}"
       DTS:ExecutableType="Microsoft.Pipeline"
@@ -822,7 +823,7 @@
                       errorOrTruncationOperation="Konvertierung"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Import Covid-19 Data\Import Fallzahlen.Outputs[Ausgabe der Flatfilequelle].ExternalColumns[source]"
-                      length="453"
+                      length="1000"
                       lineageId="Package\Import Covid-19 Data\Import Fallzahlen.Outputs[Ausgabe der Flatfilequelle].Columns[source]"
                       name="source"
                       truncationRowDisposition="FailComponent">
@@ -904,7 +905,7 @@
                       refId="Package\Import Covid-19 Data\Import Fallzahlen.Outputs[Ausgabe der Flatfilequelle].ExternalColumns[source]"
                       codePage="1252"
                       dataType="str"
-                      length="453"
+                      length="1000"
                       name="source" />
                   </externalMetadataColumns>
                 </output>
@@ -1390,7 +1391,7 @@
                       refId="Package\Import Covid-19 Data\Load into DB table Covid19_Fallzahlen.Inputs[Eingabe des OLE DB-Ziels].Columns[source]"
                       cachedCodepage="1252"
                       cachedDataType="str"
-                      cachedLength="453"
+                      cachedLength="1000"
                       cachedName="source"
                       externalMetadataColumnId="Package\Import Covid-19 Data\Load into DB table Covid19_Fallzahlen.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[source]"
                       lineageId="Package\Import Covid-19 Data\Import Fallzahlen.Outputs[Ausgabe der Flatfilequelle].Columns[source]" />
@@ -1569,7 +1570,11 @@
     design-time-name="Package\Import Covid-19 Data">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        <NodeLayout
+          Size="259,42"
+          Id="Package\Import Covid-19 Data\Load into DB table Covid19_Fallzahlen"
+          TopLeft="503,246" />
         <NodeLayout
           Size="297,42"
           Id="Package\Import Covid-19 Data\Load into DB table Covid19_Distanzkategorien"
@@ -1582,6 +1587,40 @@
           Size="161,42"
           Id="Package\Import Covid-19 Data\Import Fallzahlen"
           TopLeft="476,124" />
+        <EdgeLayout
+          Id="Package\Import Covid-19 Data.Paths[Ausgabe der Flatfilequelle]"
+          TopLeft="556.5,166">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="76,80"
+              Start="0,0"
+              End="76,72.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,36"
+                    Point2="0,40"
+                    Point3="4,40" />
+                  <mssgle:LineSegment
+                    End="72,40" />
+                  <mssgle:CubicBezierSegment
+                    Point1="72,40"
+                    Point2="76,40"
+                    Point3="76,44" />
+                  <mssgle:LineSegment
+                    End="76,72.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\Import Covid-19 Data.Paths[Ausgabe der Excel-Quelle]"
           TopLeft="242.5,153">
@@ -1618,49 +1657,22 @@
             </mssge:FontInfo>
           </AnnotationLayout.FontInfo>
         </AnnotationLayout>
-        <NodeLayout
-          Size="259,42"
-          Id="Package\Import Covid-19 Data\Load into DB table Covid19_Fallzahlen"
-          TopLeft="503,246" />
-        <EdgeLayout
-          Id="Package\Import Covid-19 Data.Paths[Ausgabe der Flatfilequelle]"
-          TopLeft="556.5,166">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="76,80"
-              Start="0,0"
-              End="76,72.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,36" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,36"
-                    Point2="0,40"
-                    Point3="4,40" />
-                  <mssgle:LineSegment
-                    End="72,40" />
-                  <mssgle:CubicBezierSegment
-                    Point1="72,40"
-                    Point2="76,40"
-                    Point3="76,44" />
-                  <mssgle:LineSegment
-                    End="76,72.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="30,45,16,16"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Import Covid-19 Data\Load into DB table Covid19_Fallzahlen">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Import Covid-19 Data\Load into DB table Covid19_Distanzkategorien">
     <Properties>
@@ -1676,19 +1688,6 @@
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Import Covid-19 Data\Import Distanzdaten">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Import Covid-19 Data\Load into DB table Covid19_Fallzahlen">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
