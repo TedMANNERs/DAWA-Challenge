@@ -11,8 +11,8 @@
   DTS:LocaleID="3072"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="71"
-  DTS:VersionGUID="{20A2AB38-95B9-450F-8222-78E846775F1C}">
+  DTS:VersionBuild="72"
+  DTS:VersionGUID="{3F3E2978-5894-484C-9C15-C3547FED9126}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -96,6 +96,7 @@
     <DTS:Executable
       DTS:refId="Package\Get max Fallzahlen of cantons"
       DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
       DTS:Description="Datenflusstask"
       DTS:DTSID="{0C1C5541-8347-4933-BF40-5AF48A28DC0C}"
       DTS:ExecutableType="Microsoft.Pipeline"
@@ -1596,6 +1597,7 @@
     <DTS:Executable
       DTS:refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB"
       DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
       DTS:Description="Datenflusstask"
       DTS:DTSID="{636D1E0E-24DB-482B-8C3B-01F32179E44B}"
       DTS:ExecutableType="Microsoft.Pipeline"
@@ -4343,139 +4345,33 @@
           Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time"
           TopLeft="197,242" />
         <NodeLayout
-          Size="205,42"
-          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen"
-          TopLeft="183,44" />
-        <NodeLayout
-          Size="186,42"
-          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes"
-          TopLeft="190,110" />
-        <EdgeLayout
-          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der OLE DB-Quelle]"
-          TopLeft="284.25,86">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,24"
-              Start="0,0"
-              End="0,16.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,16.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="183,42"
-          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings"
-          TopLeft="194,175" />
-        <EdgeLayout
-          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der abgeleiteten Spalte]"
-          TopLeft="284.25,152">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,23"
-              Start="0,0"
-              End="0,15.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,15.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der abgeleiteten Spalte1]"
-          TopLeft="285.5,217">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,25"
-              Start="0,0"
-              End="0,17.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,17.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
           Size="168,42"
           Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types"
           TopLeft="205,314" />
-        <EdgeLayout
-          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der abgeleiteten Spalte2]"
-          TopLeft="287.25,284">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,30"
-              Start="0,0"
-              End="0,22.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,22.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <NodeLayout
           Size="143,42"
           Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table"
           TopLeft="214,465" />
         <NodeLayout
+          Size="169,42"
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to error table"
+          TopLeft="472,293" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes"
+          TopLeft="190,110" />
+        <NodeLayout
+          Size="183,42"
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings"
+          TopLeft="194,175" />
+        <NodeLayout
+          Size="205,42"
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen"
+          TopLeft="183,44" />
+        <NodeLayout
           Size="122,42"
           Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren"
           TopLeft="229,391" />
-        <EdgeLayout
-          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der Datenkonvertierung]"
-          TopLeft="289.5,356">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,35"
-              Start="0,0"
-              End="0,27.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,27.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <EdgeLayout
           Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Sortierausgabe]"
           TopLeft="287.75,433">
@@ -4498,10 +4394,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="169,42"
-          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to error table"
-          TopLeft="472,293" />
         <EdgeLayout
           Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Fehlerausgabe der abgeleiteten Spalte]"
           TopLeft="374,263">
@@ -4536,6 +4428,116 @@
             <mssgm:EdgeLabel
               BoundingBox="-36.13634765625,-17.6630859375,170.2726953125,11.6630859375"
               RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der OLE DB-Quelle]"
+          TopLeft="284.25,86">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24"
+              Start="0,0"
+              End="0,16.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der Datenkonvertierung]"
+          TopLeft="289.5,356">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35"
+              Start="0,0"
+              End="0,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der abgeleiteten Spalte2]"
+          TopLeft="287.25,284">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30"
+              Start="0,0"
+              End="0,22.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der abgeleiteten Spalte1]"
+          TopLeft="285.5,217">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25"
+              Start="0,0"
+              End="0,17.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der abgeleiteten Spalte]"
+          TopLeft="284.25,152">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23"
+              Start="0,0"
+              End="0,15.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
