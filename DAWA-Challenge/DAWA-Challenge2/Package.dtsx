@@ -11,9 +11,1695 @@
   DTS:LocaleID="3072"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionGUID="{35380C27-B716-4E13-9607-39273085F715}">
+  DTS:VersionBuild="43"
+  DTS:VersionGUID="{334F4E7C-7D2D-459F-B9D1-33F40A723C90}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DAWA-05.MyImportDB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{863B20AB-8434-4C91-8538-2FB43CD30437}"
+      DTS:ObjectName="DAWA-05.MyImportDB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=DAWA-05;Initial Catalog=MyImportDB;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DAWA-05.Transformation_Aufgabe]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{B2470845-D8C3-4A59-AD89-CFDF4F582B3C}"
+      DTS:ObjectName="DAWA-05.Transformation_Aufgabe">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=DAWA-05;Initial Catalog=Transformation_Aufgabe;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
   <DTS:Variables />
-  <DTS:Executables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Create table if not exist"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Task &quot;SQL ausführen&quot;"
+      DTS:DTSID="{4913685f-b4a4-43a0-8be8-6bfbe9e3fca3}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create table if not exist"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 RC1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B2470845-D8C3-4A59-AD89-CFDF4F582B3C}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="IF EXISTS (SELECT * FROM sysobjects WHERE name='Covid19_Fallzahlen_Transformiert' AND xtype='U')&#xA; DROP TABLE Covid19_Fallzahlen_Transformiert;&#xA;&#xA;CREATE TABLE Covid19_Fallzahlen_Transformiert (&#xA;&#x9;id INT NOT NULL IDENTITY PRIMARY KEY&#xA;&#x9;,datetime                   DATETIME  NOT NULL&#xA;&#x9;,abbreviation_canton_and_fl VARCHAR(2) NOT NULL&#xA;&#x9;,ncumul_tested              INT&#xA;&#x9;,ncumul_conf                INT&#xA;&#x9;,ncumul_hosp                INT&#xA;&#x9;,ncumul_ICU                 INT&#xA;&#x9;,ncumul_vent                INT&#xA;&#x9;,ncumul_released            INT&#xA;&#x9;,ncumul_deceased            INT&#xA;);" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Datenflusstask"
+      DTS:DTSID="{636D1E0E-24DB-482B-8C3B-01F32179E44B}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Transform and Load Covid-19 Fallzahlen from MyImportDB"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Datenkonvertierung;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Alle Rechte vorbehalten; http://www.microsoft.com/sql/support;0"
+              description="Datenkonvertierung"
+              name="Convert data types"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Inputs[Eingabe der Datenkonvertierung]"
+                  name="Eingabe der Datenkonvertierung">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Inputs[Eingabe der Datenkonvertierung].Columns[ncumul_tested]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_tested"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_tested]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Inputs[Eingabe der Datenkonvertierung].Columns[ncumul_conf]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_conf"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Inputs[Eingabe der Datenkonvertierung].Columns[ncumul_hosp]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_hosp"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_hosp]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Inputs[Eingabe der Datenkonvertierung].Columns[ncumul_ICU]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_ICU"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_ICU]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Inputs[Eingabe der Datenkonvertierung].Columns[ncumul_vent]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_vent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_vent]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Inputs[Eingabe der Datenkonvertierung].Columns[ncumul_released]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_released"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_released]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Inputs[Eingabe der Datenkonvertierung].Columns[ncumul_deceased]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_deceased"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_deceased]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung]"
+                  exclusionGroup="1"
+                  name="Ausgabe der Datenkonvertierung"
+                  synchronousInputId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Inputs[Eingabe der Datenkonvertierung]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_tested]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_tested]"
+                      name="int_ncumul_tested"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt die Eingabespalte an, die als Quelle der Daten für die Konvertierung verwendet wird."
+                          name="SourceInputColumnLineageID">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_tested]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Zeigt an, ob die Spalte die schnelleren gebietsschemaneutralen Analyseroutinen verwendet."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_conf]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_conf]"
+                      name="int_ncumul_conf"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt die Eingabespalte an, die als Quelle der Daten für die Konvertierung verwendet wird."
+                          name="SourceInputColumnLineageID">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Zeigt an, ob die Spalte die schnelleren gebietsschemaneutralen Analyseroutinen verwendet."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_hosp]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_hosp]"
+                      name="int_ncumul_hosp"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt die Eingabespalte an, die als Quelle der Daten für die Konvertierung verwendet wird."
+                          name="SourceInputColumnLineageID">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_hosp]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Zeigt an, ob die Spalte die schnelleren gebietsschemaneutralen Analyseroutinen verwendet."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_ICU]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_ICU]"
+                      name="int_ncumul_ICU"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt die Eingabespalte an, die als Quelle der Daten für die Konvertierung verwendet wird."
+                          name="SourceInputColumnLineageID">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_ICU]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Zeigt an, ob die Spalte die schnelleren gebietsschemaneutralen Analyseroutinen verwendet."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_vent]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_vent]"
+                      name="int_ncumul_vent"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt die Eingabespalte an, die als Quelle der Daten für die Konvertierung verwendet wird."
+                          name="SourceInputColumnLineageID">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_vent]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Zeigt an, ob die Spalte die schnelleren gebietsschemaneutralen Analyseroutinen verwendet."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_released]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_released]"
+                      name="int_ncumul_released"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt die Eingabespalte an, die als Quelle der Daten für die Konvertierung verwendet wird."
+                          name="SourceInputColumnLineageID">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_released]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Zeigt an, ob die Spalte die schnelleren gebietsschemaneutralen Analyseroutinen verwendet."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_deceased]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_deceased]"
+                      name="int_ncumul_deceased"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt die Eingabespalte an, die als Quelle der Daten für die Konvertierung verwendet wird."
+                          name="SourceInputColumnLineageID">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_deceased]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Zeigt an, ob die Spalte die schnelleren gebietsschemaneutralen Analyseroutinen verwendet."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Fehlerausgabe der Datenkonvertierung]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Fehlerausgabe der Datenkonvertierung"
+                  synchronousInputId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Inputs[Eingabe der Datenkonvertierung]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Fehlerausgabe der Datenkonvertierung].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Fehlerausgabe der Datenkonvertierung].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Fehlerausgabe der Datenkonvertierung].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Fehlerausgabe der Datenkonvertierung].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB-Quelle;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Alle Rechte vorbehalten; http://www.microsoft.com/sql/support;7"
+              description="OLE DB-Quelle"
+              name="Import Covid-19 Fallzahlen"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Die Anzahl der Sekunden für das Timeout eines Befehls. Der Wert &quot;0&quot; zeigt einen unendlichen Timeoutwert an."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Gibt den Namen des zum Öffnen eines Rowsets verwendeten Datenbankobjekts an."
+                  name="OpenRowset">[dbo].[Covid19_Fallzahlen]</property>
+                <property
+                  dataType="System.String"
+                  description="Gibt die Variable an, die den Namen des zum Öffnen eines Rowsets verwendeten Datenbankobjekts enthält."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Der auszuführende SQL-Befehl."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="Die Variable, die den auszuführenden SQL-Befehl enthält."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Gibt die zu verwendende Spaltencodepage an, wenn keine Codepageinformationen von der Datenquelle verfügbar sind."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Erzwingt die Verwendung des DefaultCodePage-Eigenschaftswerts beim Beschreiben von Zeichendaten."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Gibt den zum Zugreifen auf die Datenbank verwendeten Modus an."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="Die Zuordnungen zwischen den Parametern im SQL-Befehl und den Variablen."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DAWA-05.MyImportDB]"
+                  connectionManagerRefId="Package.ConnectionManagers[DAWA-05.MyImportDB]"
+                  description="Die für den Zugriff auf die Datenbank verwendete OLE DB-Laufzeitverbindung."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle]"
+                  name="Ausgabe der OLE DB-Quelle">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[date]"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[date]"
+                      name="date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[time]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[time]"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[time]"
+                      name="time"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[abbreviation_canton_and_fl]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[abbreviation_canton_and_fl]"
+                      length="2"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[abbreviation_canton_and_fl]"
+                      name="abbreviation_canton_and_fl"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_tested]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_tested]"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_tested]"
+                      name="ncumul_tested"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_conf]"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]"
+                      name="ncumul_conf"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_hosp]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_hosp]"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_hosp]"
+                      name="ncumul_hosp"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_ICU]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_ICU]"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_ICU]"
+                      name="ncumul_ICU"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_vent]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_vent]"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_vent]"
+                      name="ncumul_vent"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_released]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_released]"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_released]"
+                      name="ncumul_released"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_deceased]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_deceased]"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_deceased]"
+                      name="ncumul_deceased"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[id]"
+                      dataType="i4"
+                      name="id" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[date]"
+                      dataType="dbDate"
+                      name="date" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[time]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="time" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[abbreviation_canton_and_fl]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="abbreviation_canton_and_fl" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_tested]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="ncumul_tested" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_conf]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="ncumul_conf" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_hosp]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="ncumul_hosp" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_ICU]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="ncumul_ICU" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_vent]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="ncumul_vent" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_released]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="ncumul_released" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_deceased]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="ncumul_deceased" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[source]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1000"
+                      name="source" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle]"
+                  isErrorOut="true"
+                  name="Fehlerausgabe der OLE DB-Quelle">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[date]"
+                      dataType="dbDate"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[date]"
+                      name="date" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[time]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[time]"
+                      name="time" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[abbreviation_canton_and_fl]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[abbreviation_canton_and_fl]"
+                      name="abbreviation_canton_and_fl" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_tested]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_tested]"
+                      name="ncumul_tested" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_conf]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_conf]"
+                      name="ncumul_conf" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_hosp]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_hosp]"
+                      name="ncumul_hosp" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_ICU]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_ICU]"
+                      name="ncumul_ICU" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_vent]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_vent]"
+                      name="ncumul_vent" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_released]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_released]"
+                      name="ncumul_released" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_deceased]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_deceased]"
+                      name="ncumul_deceased" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Abgeleitete Spalte;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Alle Rechte vorbehalten; http://www.microsoft.com/sql/support;0"
+              description="Erstellt neue Spaltenwerte, indem Ausdrücke auf Transformationseingabespalten angewendet werden. Erstellen Sie neue Spalten, oder überschreiben Sie vorhandene. Verketten Sie beispielsweise die Werte der Spalten &quot;first name&quot; und &quot;last name&quot;, um die Spalte &quot;full name&quot; zu erhalten."
+              name="Merge date and time"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Inputs[Eingabe der abgeleiteten Spalte]"
+                  description="Eingabe der Transformation für abgeleiteten Spalten"
+                  name="Eingabe der abgeleiteten Spalte">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Inputs[Eingabe der abgeleiteten Spalte].Columns[date]"
+                      cachedDataType="dbDate"
+                      cachedName="date"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[date]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Inputs[Eingabe der abgeleiteten Spalte].Columns[time]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="time"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[time]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Outputs[Ausgabe der abgeleiteten Spalte]"
+                  description="Standardausgabe der Transformation für abgeleitete Spalten"
+                  exclusionGroup="1"
+                  name="Ausgabe der abgeleiteten Spalte"
+                  synchronousInputId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Inputs[Eingabe der abgeleiteten Spalte]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Outputs[Ausgabe der abgeleiteten Spalte].Columns[datetime]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Outputs[Ausgabe der abgeleiteten Spalte].Columns[datetime]"
+                      name="datetime"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[DATEADD]("Minute",[DATEDIFF]("Minute",(DT_DBTIME)"00:00",(DT_DBTIME)#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[time]}),(DT_DBTIMESTAMP)#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[date]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">DATEADD("Minute",DATEDIFF("Minute",(DT_DBTIME)"00:00",(DT_DBTIME)time),(DT_DBTIMESTAMP)date)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Outputs[Fehlerausgabe der abgeleiteten Spalte]"
+                  description="Fehlerausgabe der Transformation für abgeleitete Spalten"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Fehlerausgabe der abgeleiteten Spalte"
+                  synchronousInputId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Inputs[Eingabe der abgeleiteten Spalte]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Outputs[Fehlerausgabe der abgeleiteten Spalte].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Outputs[Fehlerausgabe der abgeleiteten Spalte].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Outputs[Fehlerausgabe der abgeleiteten Spalte].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Outputs[Fehlerausgabe der abgeleiteten Spalte].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB-Ziel;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Alle Rechte vorbehalten; http://www.microsoft.com/sql/support;4"
+              description="OLE DB-Ziel"
+              name="OLE DB-Ziel"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Die Anzahl der Sekunden für das Timeout eines Befehls. Der Wert &quot;0&quot; zeigt einen unendlichen Timeoutwert an."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Gibt den Namen des zum Öffnen eines Rowsets verwendeten Datenbankobjekts an."
+                  name="OpenRowset">[dbo].[Covid19_Fallzahlen_Transformiert]</property>
+                <property
+                  dataType="System.String"
+                  description="Gibt die Variable an, die den Namen des zum Öffnen eines Rowsets verwendeten Datenbankobjekts enthält."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Der auszuführende SQL-Befehl."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Gibt die zu verwendende Spaltencodepage an, wenn keine Codepageinformationen von der Datenquelle verfügbar sind."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Erzwingt die Verwendung des DefaultCodePage-Eigenschaftswerts beim Beschreiben von Zeichendaten."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Gibt den zum Zugreifen auf die Datenbank verwendeten Modus an."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Zeigt an, ob die für Identitätsspalten übergebenen Werte zum Ziel kopiert werden. Bei &quot;False&quot; werden die Werte für Identitätsspalten am Ziel automatisch generiert. Trifft nur zu, wenn die Option &quot;Schnelles Laden&quot; aktiviert ist."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Zeigt an, ob für Spalten, die NULL enthalten, NULL am Ziel eingefügt wird. Bei &quot;False&quot; werden für Spalten, die NULL enthalten, am Ziel die Standardwerte eingefügt. Trifft nur zu, wenn die Option &quot;Schnelles Laden&quot; aktiviert ist."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Gibt die für die Option &quot;Schnelles Laden&quot; zu verwendenden Optionen an. Trifft nur zu, wenn die Option &quot;Schnelles Laden&quot; aktiviert ist."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Gibt an, wann beim Einfügen von Daten Commits ausgegeben werden. Der Wert &quot;0&quot; gibt an, dass ein Commit am Ende des Einfügens von Daten ausgegeben wird. Trifft nur zu, wenn die Option &quot;Schnelles Laden&quot; aktiviert ist."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DAWA-05.Transformation_Aufgabe]"
+                  connectionManagerRefId="Package.ConnectionManagers[DAWA-05.Transformation_Aufgabe]"
+                  description="Die für den Zugriff auf die Datenbank verwendete OLE DB-Laufzeitverbindung."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels]"
+                  errorOrTruncationOperation="Einfügen"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Eingabe des OLE DB-Ziels">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].Columns[abbreviation_canton_and_fl]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="abbreviation_canton_and_fl"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[abbreviation_canton_and_fl]"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[abbreviation_canton_and_fl]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].Columns[datetime]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="datetime"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[datetime]"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Outputs[Ausgabe der abgeleiteten Spalte].Columns[datetime]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].Columns[int_ncumul_tested]"
+                      cachedDataType="i8"
+                      cachedName="int_ncumul_tested"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_tested]"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_tested]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].Columns[int_ncumul_conf]"
+                      cachedDataType="i8"
+                      cachedName="int_ncumul_conf"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_conf]"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_conf]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].Columns[int_ncumul_hosp]"
+                      cachedDataType="i8"
+                      cachedName="int_ncumul_hosp"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_hosp]"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_hosp]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].Columns[int_ncumul_ICU]"
+                      cachedDataType="i8"
+                      cachedName="int_ncumul_ICU"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_ICU]"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_ICU]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].Columns[int_ncumul_vent]"
+                      cachedDataType="i8"
+                      cachedName="int_ncumul_vent"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_vent]"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_vent]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].Columns[int_ncumul_released]"
+                      cachedDataType="i8"
+                      cachedName="int_ncumul_released"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_released]"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_released]" />
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].Columns[int_ncumul_deceased]"
+                      cachedDataType="i8"
+                      cachedName="int_ncumul_deceased"
+                      externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_deceased]"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_deceased]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[id]"
+                      dataType="i4"
+                      name="id" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[datetime]"
+                      dataType="dbTimeStamp"
+                      name="datetime" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[abbreviation_canton_and_fl]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="abbreviation_canton_and_fl" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_tested]"
+                      dataType="i4"
+                      name="ncumul_tested" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_conf]"
+                      dataType="i4"
+                      name="ncumul_conf" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_hosp]"
+                      dataType="i4"
+                      name="ncumul_hosp" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_ICU]"
+                      dataType="i4"
+                      name="ncumul_ICU" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_vent]"
+                      dataType="i4"
+                      name="ncumul_vent" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_released]"
+                      dataType="i4"
+                      name="ncumul_released" />
+                    <externalMetadataColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_deceased]"
+                      dataType="i4"
+                      name="ncumul_deceased" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Outputs[Fehlerausgabe des OLE DB-Ziels]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Fehlerausgabe des OLE DB-Ziels"
+                  synchronousInputId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Outputs[Fehlerausgabe des OLE DB-Ziels].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Outputs[Fehlerausgabe des OLE DB-Ziels].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Outputs[Fehlerausgabe des OLE DB-Ziels].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Outputs[Fehlerausgabe des OLE DB-Ziels].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Abgeleitete Spalte;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Alle Rechte vorbehalten; http://www.microsoft.com/sql/support;0"
+              description="Erstellt neue Spaltenwerte, indem Ausdrücke auf Transformationseingabespalten angewendet werden. Erstellen Sie neue Spalten, oder überschreiben Sie vorhandene. Verketten Sie beispielsweise die Werte der Spalten &quot;first name&quot; und &quot;last name&quot;, um die Spalte &quot;full name&quot; zu erhalten."
+              name="Replace double quotes"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Inputs[Eingabe der abgeleiteten Spalte]"
+                  description="Eingabe der Transformation für abgeleiteten Spalten"
+                  name="Eingabe der abgeleiteten Spalte">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Inputs[Eingabe der abgeleiteten Spalte].Columns[time]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="time"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[time]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[REPLACE](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[time]},"\"\"","00:00")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACE(time,"\"\"","00:00")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Inputs[Eingabe der abgeleiteten Spalte].Columns[ncumul_tested]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_tested"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_tested]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[REPLACE](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_tested]},"\"\"","0")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACE(ncumul_tested,"\"\"","0")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Inputs[Eingabe der abgeleiteten Spalte].Columns[ncumul_conf]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_conf"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[REPLACE](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]},"\"\"","0")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACE(ncumul_conf,"\"\"","0")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Inputs[Eingabe der abgeleiteten Spalte].Columns[ncumul_hosp]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_hosp"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_hosp]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[REPLACE](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_hosp]},"\"\"","0")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACE(ncumul_hosp,"\"\"","0")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Inputs[Eingabe der abgeleiteten Spalte].Columns[ncumul_ICU]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_ICU"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_ICU]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[REPLACE](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_ICU]},"\"\"","0")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACE(ncumul_ICU,"\"\"","0")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Inputs[Eingabe der abgeleiteten Spalte].Columns[ncumul_vent]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_vent"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_vent]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[REPLACE](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_vent]},"\"\"","0")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACE(ncumul_vent,"\"\"","0")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Inputs[Eingabe der abgeleiteten Spalte].Columns[ncumul_released]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_released"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_released]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[REPLACE](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_released]},"\"\"","0")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACE(ncumul_released,"\"\"","0")</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Inputs[Eingabe der abgeleiteten Spalte].Columns[ncumul_deceased]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_deceased"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_deceased]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[REPLACE](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_deceased]},"\"\"","0")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">REPLACE(ncumul_deceased,"\"\"","0")</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Outputs[Ausgabe der abgeleiteten Spalte]"
+                  description="Standardausgabe der Transformation für abgeleitete Spalten"
+                  exclusionGroup="1"
+                  name="Ausgabe der abgeleiteten Spalte"
+                  synchronousInputId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Inputs[Eingabe der abgeleiteten Spalte]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Outputs[Fehlerausgabe der abgeleiteten Spalte]"
+                  description="Fehlerausgabe der Transformation für abgeleitete Spalten"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Fehlerausgabe der abgeleiteten Spalte"
+                  synchronousInputId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Inputs[Eingabe der abgeleiteten Spalte]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Outputs[Fehlerausgabe der abgeleiteten Spalte].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Outputs[Fehlerausgabe der abgeleiteten Spalte].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Outputs[Fehlerausgabe der abgeleiteten Spalte].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Outputs[Fehlerausgabe der abgeleiteten Spalte].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Abgeleitete Spalte;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Alle Rechte vorbehalten; http://www.microsoft.com/sql/support;0"
+              description="Erstellt neue Spaltenwerte, indem Ausdrücke auf Transformationseingabespalten angewendet werden. Erstellen Sie neue Spalten, oder überschreiben Sie vorhandene. Verketten Sie beispielsweise die Werte der Spalten &quot;first name&quot; und &quot;last name&quot;, um die Spalte &quot;full name&quot; zu erhalten."
+              name="Replace empty strings"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Inputs[Eingabe der abgeleiteten Spalte]"
+                  description="Eingabe der Transformation für abgeleiteten Spalten"
+                  name="Eingabe der abgeleiteten Spalte">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Inputs[Eingabe der abgeleiteten Spalte].Columns[time]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="time"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[time]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[LEN](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[time]}) &gt; 0 ? #{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[time]} : "00:00"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">LEN(time) &gt; 0 ? time : "00:00"</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Inputs[Eingabe der abgeleiteten Spalte].Columns[ncumul_tested]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_tested"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_tested]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[LEN](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_tested]}) &gt; 0 ? #{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_tested]} : "0"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">LEN(ncumul_tested) &gt; 0 ? ncumul_tested : "0"</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Inputs[Eingabe der abgeleiteten Spalte].Columns[ncumul_conf]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_conf"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[LEN](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]}) &gt; 0 ? #{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]} : "0"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">LEN(ncumul_conf) &gt; 0 ? ncumul_conf : "0"</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Inputs[Eingabe der abgeleiteten Spalte].Columns[ncumul_hosp]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_hosp"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_hosp]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[LEN](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_hosp]}) &gt; 0 ? #{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_hosp]} : "0"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">LEN(ncumul_hosp) &gt; 0 ? ncumul_hosp : "0"</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Inputs[Eingabe der abgeleiteten Spalte].Columns[ncumul_ICU]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_ICU"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_ICU]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[LEN](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_ICU]}) &gt; 0 ? #{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_ICU]} : "0"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">LEN(ncumul_ICU) &gt; 0 ? ncumul_ICU : "0"</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Inputs[Eingabe der abgeleiteten Spalte].Columns[ncumul_vent]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_vent"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_vent]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[LEN](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_vent]}) &gt; 0 ? #{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_vent]} : "0"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">LEN(ncumul_vent) &gt; 0 ? ncumul_vent : "0"</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Inputs[Eingabe der abgeleiteten Spalte].Columns[ncumul_released]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_released"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_released]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[LEN](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_released]}) &gt; 0 ? #{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_released]} : "0"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">LEN(ncumul_released) &gt; 0 ? ncumul_released : "0"</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Inputs[Eingabe der abgeleiteten Spalte].Columns[ncumul_deceased]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_deceased"
+                      errorOrTruncationOperation="Berechnung"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_deceased]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Ausdruck für abgeleitete Spalte"
+                          name="Expression">[LEN](#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_deceased]}) &gt; 0 ? #{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_deceased]} : "0"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Angezeigter Ausdruck für abgeleitete Spalte"
+                          expressionType="Notify"
+                          name="FriendlyExpression">LEN(ncumul_deceased) &gt; 0 ? ncumul_deceased : "0"</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Outputs[Ausgabe der abgeleiteten Spalte]"
+                  description="Standardausgabe der Transformation für abgeleitete Spalten"
+                  exclusionGroup="1"
+                  name="Ausgabe der abgeleiteten Spalte"
+                  synchronousInputId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Inputs[Eingabe der abgeleiteten Spalte]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Outputs[Fehlerausgabe der abgeleiteten Spalte]"
+                  description="Fehlerausgabe der Transformation für abgeleitete Spalten"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Fehlerausgabe der abgeleiteten Spalte"
+                  synchronousInputId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Inputs[Eingabe der abgeleiteten Spalte]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Outputs[Fehlerausgabe der abgeleiteten Spalte].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Outputs[Fehlerausgabe der abgeleiteten Spalte].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Outputs[Fehlerausgabe der abgeleiteten Spalte].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Outputs[Fehlerausgabe der abgeleiteten Spalte].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der abgeleiteten Spalte]"
+              endId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Inputs[Eingabe der abgeleiteten Spalte]"
+              name="Ausgabe der abgeleiteten Spalte"
+              startId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Outputs[Ausgabe der abgeleiteten Spalte]" />
+            <path
+              refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der abgeleiteten Spalte1]"
+              endId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Inputs[Eingabe der abgeleiteten Spalte]"
+              name="Ausgabe der abgeleiteten Spalte"
+              startId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings.Outputs[Ausgabe der abgeleiteten Spalte]" />
+            <path
+              refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der abgeleiteten Spalte2]"
+              endId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Inputs[Eingabe der Datenkonvertierung]"
+              name="Ausgabe der abgeleiteten Spalte"
+              startId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Outputs[Ausgabe der abgeleiteten Spalte]" />
+            <path
+              refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der Datenkonvertierung]"
+              endId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel.Inputs[Eingabe des OLE DB-Ziels]"
+              name="Ausgabe der Datenkonvertierung"
+              startId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung]" />
+            <path
+              refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der OLE DB-Quelle]"
+              endId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Inputs[Eingabe der abgeleiteten Spalte]"
+              name="Ausgabe der OLE DB-Quelle"
+              startId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{B226665B-22B1-449E-B84F-F6D5A5CA45C3}"
+      DTS:From="Package\Create table if not exist"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="194,42"
+          Id="Package\Create table if not exist"
+          TopLeft="60,60" />
+        <NodeLayout
+          Size="356,42"
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB"
+          TopLeft="87,181" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="157,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="108,79"
+              Start="0,0"
+              End="108,71.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,35.5"
+                    Point2="0,39.5"
+                    Point3="4,39.5" />
+                  <mssgle:LineSegment
+                    End="104,39.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="104,39.5"
+                    Point2="108,39.5"
+                    Point3="108,43.5" />
+                  <mssgle:LineSegment
+                    End="108,71.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time"
+          TopLeft="197,242" />
+        <NodeLayout
+          Size="205,42"
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen"
+          TopLeft="183,44" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes"
+          TopLeft="190,110" />
+        <EdgeLayout
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der OLE DB-Quelle]"
+          TopLeft="284.25,86">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24"
+              Start="0,0"
+              End="0,16.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="183,42"
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace empty strings"
+          TopLeft="194,175" />
+        <EdgeLayout
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der abgeleiteten Spalte]"
+          TopLeft="284.25,152">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23"
+              Start="0,0"
+              End="0,15.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der abgeleiteten Spalte1]"
+          TopLeft="285.5,217">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25"
+              Start="0,0"
+              End="0,17.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types"
+          TopLeft="203,324" />
+        <EdgeLayout
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der abgeleiteten Spalte2]"
+          TopLeft="286.25,284">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40"
+              Start="0,0"
+              End="0,32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="135,42"
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel"
+          TopLeft="219,407" />
+        <EdgeLayout
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der Datenkonvertierung]"
+          TopLeft="286.75,366">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,8.75,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\OLE DB-Ziel">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

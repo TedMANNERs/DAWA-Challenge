@@ -11,8 +11,8 @@
   DTS:LocaleID="3072"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="41"
-  DTS:VersionGUID="{651183F6-0420-45BA-9F06-7FEFF91A24A9}">
+  DTS:VersionBuild="44"
+  DTS:VersionGUID="{44ED1F1D-C65D-4CAD-BA93-A16E2A276050}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -52,7 +52,7 @@
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:FileUsageType="1"
-          DTS:ConnectionString="C:\Users\usera\Desktop\DAWA-Challenge\DAWA-Challenge\Archive\COVID-19_Distanzdaten_202004041521.xlsx" />
+          DTS:ConnectionString="C:\Users\usera\Desktop\DAWA-Challenge\DAWA-Challenge\Archive\COVID-19_Distanzdaten_202004041702.xlsx" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -88,7 +88,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="date"
-              DTS:DTSID="{F3898929-4B9D-49F8-9515-12E0F3E28605}"
+              DTS:DTSID="{9801F979-5943-42FB-B658-0DA190B7C7B5}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -97,7 +97,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="time"
-              DTS:DTSID="{9BE60888-CB06-4D86-94D2-6EA80038851F}"
+              DTS:DTSID="{0C755529-0AA5-4F7C-AA33-59836B732A0C}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -106,7 +106,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="abbreviation_canton_and_fl"
-              DTS:DTSID="{33304238-9003-47EF-94AE-1A2C22DD749E}"
+              DTS:DTSID="{F708368E-17E6-40FF-8F16-5455211492D3}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -115,7 +115,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ncumul_tested"
-              DTS:DTSID="{44F254DD-7059-4500-884C-C03D2A14268E}"
+              DTS:DTSID="{69328526-9447-4D1C-B688-76A832C08FFD}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -124,7 +124,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ncumul_conf"
-              DTS:DTSID="{153188D2-300D-437C-8F75-08FFD032A0E4}"
+              DTS:DTSID="{D452FC4B-8C1B-45A3-9C90-A651059E7182}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -133,7 +133,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ncumul_hosp"
-              DTS:DTSID="{D4E51519-6538-4A3B-93D8-1DABFF50A3A4}"
+              DTS:DTSID="{4AB9445D-2A79-4C07-AEAC-F327F52DD7AD}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -142,7 +142,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ncumul_ICU"
-              DTS:DTSID="{92B1EA17-E004-4E4B-86B1-ECB226DA1996}"
+              DTS:DTSID="{EFB505C2-FB1A-474E-89E8-71BF17855680}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -151,7 +151,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ncumul_vent"
-              DTS:DTSID="{5DC830EF-F74E-4411-A69B-7AFF52F99E6D}"
+              DTS:DTSID="{24A23666-4683-4731-9B8C-B89BB7968142}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -160,7 +160,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ncumul_released"
-              DTS:DTSID="{8E8A4F34-E068-4CE6-A34E-37D77FE3DFA1}"
+              DTS:DTSID="{553B7DEC-6C58-43E4-9287-CC10EE8F6ED2}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -169,7 +169,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="ncumul_deceased"
-              DTS:DTSID="{7689DC68-780C-4C45-95DA-7AF72E0CDA30}"
+              DTS:DTSID="{88F88DFD-1438-4073-BFC4-151D50AB835D}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -178,7 +178,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="source"
-              DTS:DTSID="{EE601D16-799A-4223-9985-3694FF5458FD}"
+              DTS:DTSID="{706F2E53-971E-49AF-BA46-F5BD531E37DF}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -200,7 +200,7 @@
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:FileUsageType="1"
-          DTS:ConnectionString="C:\Users\usera\Desktop\DAWA-Challenge\DAWA-Challenge\Archive\COVID-19_Fallzahlen_202004041521.csv" />
+          DTS:ConnectionString="C:\Users\usera\Desktop\DAWA-Challenge\DAWA-Challenge\Archive\COVID-19_Fallzahlen_202004041702.csv" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -1567,7 +1567,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Rename and move Distanzdaten to Archive"
       DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2017 RC1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <FileSystemData
@@ -1585,7 +1585,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Rename and move Fallzahlen to Archive"
       DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2017 RC1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <FileSystemData
@@ -1641,6 +1641,14 @@
           Size="181,42"
           Id="Package\Import Covid-19 Data"
           TopLeft="136,154" />
+        <NodeLayout
+          Size="282,42"
+          Id="Package\Rename and move Distanzdaten to Archive"
+          TopLeft="418,306" />
+        <NodeLayout
+          Size="267,42"
+          Id="Package\Rename and move Fallzahlen to Archive"
+          TopLeft="110,305" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="226.25,73">
@@ -1663,10 +1671,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="267,42"
-          Id="Package\Rename and move Fallzahlen to Archive"
-          TopLeft="110,305" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
           TopLeft="226.5,196">
@@ -1701,10 +1705,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="282,42"
-          Id="Package\Rename and move Distanzdaten to Archive"
-          TopLeft="418,306" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
           TopLeft="255.333333333333,196">
