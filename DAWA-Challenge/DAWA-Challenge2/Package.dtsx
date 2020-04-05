@@ -11,8 +11,8 @@
   DTS:LocaleID="3072"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="55"
-  DTS:VersionGUID="{291B75B5-631D-4FF0-A25E-9EC75119300F}">
+  DTS:VersionBuild="68"
+  DTS:VersionGUID="{E8192A65-82C6-43BB-A270-C90B15C36DBF}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -58,6 +58,24 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\Create table 'Covid19_Max_Fallzahlen' if not exist"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Task &quot;SQL ausführen&quot;"
+      DTS:DTSID="{d5c058df-b4af-4a03-a815-80b1add619ca}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create table 'Covid19_Max_Fallzahlen' if not exist"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 RC1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B2470845-D8C3-4A59-AD89-CFDF4F582B3C}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="IF EXISTS (SELECT * FROM sysobjects WHERE name='Covid19_Max_Fallzahlen' AND xtype='U')&#xA; DROP TABLE Covid19_Max_Fallzahlen;&#xA;&#xA;CREATE TABLE Covid19_Max_Fallzahlen (&#xA; id INT NOT NULL IDENTITY PRIMARY KEY&#xA; ,abbreviation_canton_and_fl VARCHAR(2) NOT NULL&#xA; ,max_conf                INT&#xA;);" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Create tables 'Covid19_Fallzahlen_Kanton_XX' if not exist"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Task &quot;SQL ausführen&quot;"
@@ -73,6 +91,675 @@
           SQLTask:Connection="{B2470845-D8C3-4A59-AD89-CFDF4F582B3C}"
           SQLTask:BypassPrepare="False"
           SQLTask:SqlStatementSource="IF EXISTS (SELECT * FROM sysobjects WHERE name='Covid19_Fallzahlen_Kanton_ZH' AND xtype='U')&#xA; DROP TABLE Covid19_Fallzahlen_Kanton_ZH;&#xA;&#xA;CREATE TABLE Covid19_Fallzahlen_Kanton_ZH (&#xA;&#x9;id INT NOT NULL IDENTITY PRIMARY KEY&#xA;&#x9;,datetime                   DATETIME  NOT NULL&#xA;&#x9;,abbreviation_canton_and_fl VARCHAR(2) NOT NULL&#xA;&#x9;,ncumul_tested              INT&#xA;&#x9;,ncumul_conf                INT&#xA;&#x9;,ncumul_hosp                INT&#xA;&#x9;,ncumul_ICU                 INT&#xA;&#x9;,ncumul_vent                INT&#xA;&#x9;,ncumul_released            INT&#xA;&#x9;,ncumul_deceased            INT&#xA;);&#xA;&#xA;IF EXISTS (SELECT * FROM sysobjects WHERE name='Covid19_Fallzahlen_Kanton_LU' AND xtype='U')&#xA; DROP TABLE Covid19_Fallzahlen_Kanton_LU;&#xA;&#xA;CREATE TABLE Covid19_Fallzahlen_Kanton_LU (&#xA;&#x9;id INT NOT NULL IDENTITY PRIMARY KEY&#xA;&#x9;,datetime                   DATETIME  NOT NULL&#xA;&#x9;,abbreviation_canton_and_fl VARCHAR(2) NOT NULL&#xA;&#x9;,ncumul_tested              INT&#xA;&#x9;,ncumul_conf                INT&#xA;&#x9;,ncumul_hosp                INT&#xA;&#x9;,ncumul_ICU                 INT&#xA;&#x9;,ncumul_vent                INT&#xA;&#x9;,ncumul_released            INT&#xA;&#x9;,ncumul_deceased            INT&#xA;);" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Get max Fallzahlen of cantons"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Datenflusstask"
+      DTS:DTSID="{0C1C5541-8347-4933-BF40-5AF48A28DC0C}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get max Fallzahlen of cantons"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases"
+              componentClassID="Microsoft.Aggregate"
+              contactInfo="AGGREGATE;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Alle Rechte vorbehalten; http://www.microsoft.com/sql/support;3"
+              description="Aggregiert Daten mit Funktionen wie &quot;Average&quot;, &quot;Sum&quot;, &quot;Count&quot;, &quot;Max&quot; und &quot;Min&quot;. Beispielsweise können Sie Daten gruppieren, um die Summe der Verkäufe pro Produkt oder die durchschnittlichen Besucher pro Tag zu berechnen."
+              name="Group by canton and aggregate max confirmed cases"
+              version="3">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Gibt die ungefähre Anzahl der GROUP BY-Schlüssel an, die von der Aggregation erstellt werden. LOW zeigt 500.000 Schlüsselwerte, MEDIUM 5 Millionen Schlüsselwerte und HIGH mehr als 25 Millionen Schlüsselwerte an. 'Keine Angabe' zeigt an, dass kein KeyScale-Wert verwendet wird."
+                  name="KeyScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Gibt die genaue Anzahl der GROUP BY-Schlüssel an, die von der Aggregation erstellt werden. Wenn ein Wert für &quot;KeyScale&quot; angegeben wird, hat der Wert in &quot;Keys&quot; Vorrang."
+                  name="Keys" />
+                <property
+                  dataType="System.Int32"
+                  description="Gibt die ungefähre Anzahl der unterschiedlichen Werte in einer Spalte an, die von der Aggregation als unterschiedliche Werte gezählt werden. LOW zeigt 500.000 Schlüsselwerte, MEDIUM 5 Millionen Schlüsselwerte und HIGH mehr als 25 Millionen Schlüsselwerte an. 'Keine Angabe' zeigt an, dass kein CountDistinctScale-Wert verwendet wird."
+                  name="CountDistinctScale"
+                  typeConverter="KeyScaleType">0</property>
+                <property
+                  dataType="System.Null"
+                  description="Gibt die genaue Anzahl der unterschiedlichen Werte in einer Spalte an, die von der Aggregation als unterschiedlichen Werte gezählt werden. Wenn ein CountDistinctScale-Wert angegeben wird, hat der Wert in 'CountDistinctKeys' Vorrang."
+                  name="CountDistinctKeys" />
+                <property
+                  dataType="System.Int32"
+                  description="Gibt den Prozentsatz an, um den der Arbeitsspeicher beim Aggregieren erweitert werden kann. Gültige Werte liegen zwischen 1 und 100."
+                  name="AutoExtendFactor">25</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases.Inputs[Eingabe 1 des Aggregats]"
+                  name="Eingabe 1 des Aggregats">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases.Inputs[Eingabe 1 des Aggregats].Columns[abbreviation_canton_and_fl]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="abbreviation_canton_and_fl"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[abbreviation_canton_and_fl]" />
+                    <inputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases.Inputs[Eingabe 1 des Aggregats].Columns[ncumul_conf]"
+                      cachedDataType="i4"
+                      cachedName="ncumul_conf"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases.Outputs[Ausgabe des Aggregats 1]"
+                  name="Ausgabe des Aggregats 1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Gibt die ungefähre Anzahl der GROUP BY-Schlüssel an, die von der Aggregation erstellt werden. LOW zeigt 500.000 Schlüsselwerte, MEDIUM 5 Millionen Schlüsselwerte und HIGH mehr als 25 Millionen Schlüsselwerte an. 'Keine Angabe' zeigt an, dass kein KeyScale-Wert verwendet wird."
+                      name="KeyScale"
+                      typeConverter="KeyScaleType">0</property>
+                    <property
+                      dataType="System.Null"
+                      description="Gibt die genaue Anzahl der GROUP BY-Schlüssel an, die von der Aggregation erstellt werden. Wenn ein Wert für &quot;KeyScale&quot; angegeben wird, hat der Wert in &quot;Keys&quot; Vorrang."
+                      name="Keys" />
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases.Outputs[Ausgabe des Aggregats 1].Columns[abbreviation_canton_and_fl]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases.Outputs[Ausgabe des Aggregats 1].Columns[abbreviation_canton_and_fl]"
+                      name="abbreviation_canton_and_fl">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt die ID der Eingabespalte an, die in der Aggregation verwendet wird."
+                          name="AggregationColumnId">#{Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[abbreviation_canton_and_fl]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt den Typ der Aggregation an."
+                          name="AggregationType"
+                          typeConverter="AggregationType">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Zeigt an, ob für die Spalte eine besondere Verarbeitung erforderlich ist, weil sie möglicherweise übergroße Daten enthält oder eine höhere Genauigkeit als den float-Datentyp erfordert."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Optionen für Zeichenfolgenvergleiche an."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases.Outputs[Ausgabe des Aggregats 1].Columns[max_conf]"
+                      dataType="i4"
+                      lineageId="Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases.Outputs[Ausgabe des Aggregats 1].Columns[max_conf]"
+                      name="max_conf">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt die ID der Eingabespalte an, die in der Aggregation verwendet wird."
+                          name="AggregationColumnId">#{Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]}</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt den Typ der Aggregation an."
+                          name="AggregationType"
+                          typeConverter="AggregationType">7</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Zeigt an, ob für die Spalte eine besondere Verarbeitung erforderlich ist, weil sie möglicherweise übergroße Daten enthält oder eine höhere Genauigkeit als den float-Datentyp erfordert."
+                          name="IsBig">1</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Optionen für Zeichenfolgenvergleiche an."
+                          name="AggregationComparisonFlags">0</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB-Quelle;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Alle Rechte vorbehalten; http://www.microsoft.com/sql/support;7"
+              description="OLE DB-Quelle"
+              name="Import transformed Covid-19 Fallzahlen"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Die Anzahl der Sekunden für das Timeout eines Befehls. Der Wert &quot;0&quot; zeigt einen unendlichen Timeoutwert an."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Gibt den Namen des zum Öffnen eines Rowsets verwendeten Datenbankobjekts an."
+                  name="OpenRowset">[dbo].[Covid19_Fallzahlen_Transformiert]</property>
+                <property
+                  dataType="System.String"
+                  description="Gibt die Variable an, die den Namen des zum Öffnen eines Rowsets verwendeten Datenbankobjekts enthält."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Der auszuführende SQL-Befehl."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="Die Variable, die den auszuführenden SQL-Befehl enthält."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Gibt die zu verwendende Spaltencodepage an, wenn keine Codepageinformationen von der Datenquelle verfügbar sind."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Erzwingt die Verwendung des DefaultCodePage-Eigenschaftswerts beim Beschreiben von Zeichendaten."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Gibt den zum Zugreifen auf die Datenbank verwendeten Modus an."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="Die Zuordnungen zwischen den Parametern im SQL-Befehl und den Variablen."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DAWA-05.Transformation_Aufgabe]"
+                  connectionManagerRefId="Package.ConnectionManagers[DAWA-05.Transformation_Aufgabe]"
+                  description="Die für den Zugriff auf die Datenbank verwendete OLE DB-Laufzeitverbindung."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle]"
+                  name="Ausgabe der OLE DB-Quelle">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[id]"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[id]"
+                      name="id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[datetime]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[datetime]"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[datetime]"
+                      name="datetime"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[abbreviation_canton_and_fl]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[abbreviation_canton_and_fl]"
+                      length="2"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[abbreviation_canton_and_fl]"
+                      name="abbreviation_canton_and_fl"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_tested]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_tested]"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_tested]"
+                      name="ncumul_tested"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_conf]"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]"
+                      name="ncumul_conf"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_hosp]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_hosp]"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_hosp]"
+                      name="ncumul_hosp"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_ICU]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_ICU]"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_ICU]"
+                      name="ncumul_ICU"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_vent]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_vent]"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_vent]"
+                      name="ncumul_vent"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_released]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_released]"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_released]"
+                      name="ncumul_released"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_deceased]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Konvertierung"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_deceased]"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_deceased]"
+                      name="ncumul_deceased"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[id]"
+                      dataType="i4"
+                      name="id" />
+                    <externalMetadataColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[datetime]"
+                      dataType="dbTimeStamp"
+                      name="datetime" />
+                    <externalMetadataColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[abbreviation_canton_and_fl]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="abbreviation_canton_and_fl" />
+                    <externalMetadataColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_tested]"
+                      dataType="i4"
+                      name="ncumul_tested" />
+                    <externalMetadataColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_conf]"
+                      dataType="i4"
+                      name="ncumul_conf" />
+                    <externalMetadataColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_hosp]"
+                      dataType="i4"
+                      name="ncumul_hosp" />
+                    <externalMetadataColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_ICU]"
+                      dataType="i4"
+                      name="ncumul_ICU" />
+                    <externalMetadataColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_vent]"
+                      dataType="i4"
+                      name="ncumul_vent" />
+                    <externalMetadataColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_released]"
+                      dataType="i4"
+                      name="ncumul_released" />
+                    <externalMetadataColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].ExternalColumns[ncumul_deceased]"
+                      dataType="i4"
+                      name="ncumul_deceased" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle]"
+                  isErrorOut="true"
+                  name="Fehlerausgabe der OLE DB-Quelle">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[id]"
+                      dataType="i4"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[id]"
+                      name="id" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[datetime]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[datetime]"
+                      name="datetime" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[abbreviation_canton_and_fl]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[abbreviation_canton_and_fl]"
+                      name="abbreviation_canton_and_fl" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_tested]"
+                      dataType="i4"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_tested]"
+                      name="ncumul_tested" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_conf]"
+                      dataType="i4"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_conf]"
+                      name="ncumul_conf" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_hosp]"
+                      dataType="i4"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_hosp]"
+                      name="ncumul_hosp" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_ICU]"
+                      dataType="i4"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_ICU]"
+                      name="ncumul_ICU" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_vent]"
+                      dataType="i4"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_vent]"
+                      name="ncumul_vent" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_released]"
+                      dataType="i4"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_released]"
+                      name="ncumul_released" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_deceased]"
+                      dataType="i4"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ncumul_deceased]"
+                      name="ncumul_deceased" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Fehlerausgabe der OLE DB-Quelle].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Get max Fallzahlen of cantons\Sort by max confirmed cases"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sortieren;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Alle Rechte vorbehalten; http://www.microsoft.com/sql/support;1"
+              description="Sortiert Eingabedaten in aufsteigender oder absteigender Folge, wenn sie nicht am Quellort sortiert werden können. Sortieren Sie beispielsweise Umsatzzahlen nach &quot;customer id&quot;, bevor sie in eine Flatfile geschrieben und einer anderen Abteilung zur Verfügung gestellt werden. Hinweis: Für umfangreiche Datenflüsse wird diese Transformation nicht empfohlen."
+              name="Sort by max confirmed cases"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Zeigt an, ob die Sortiertransformation Zeilen mit doppelten Sortierwerten entfernt."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Gibt die maximale Anzahl der Threads an, die beim Sortieren verwendet werden können."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Get max Fallzahlen of cantons\Sort by max confirmed cases.Inputs[Sortiereingabe]"
+                  name="Sortiereingabe">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Sort by max confirmed cases.Inputs[Sortiereingabe].Columns[abbreviation_canton_and_fl]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="abbreviation_canton_and_fl"
+                      lineageId="Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases.Outputs[Ausgabe des Aggregats 1].Columns[abbreviation_canton_and_fl]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Sort by max confirmed cases.Inputs[Sortiereingabe].Columns[max_conf]"
+                      cachedDataType="i4"
+                      cachedName="max_conf"
+                      lineageId="Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases.Outputs[Ausgabe des Aggregats 1].Columns[max_conf]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">-1</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Get max Fallzahlen of cantons\Sort by max confirmed cases.Outputs[Sortierausgabe]"
+                  isSorted="true"
+                  name="Sortierausgabe">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Sort by max confirmed cases.Outputs[Sortierausgabe].Columns[abbreviation_canton_and_fl]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Get max Fallzahlen of cantons\Sort by max confirmed cases.Outputs[Sortierausgabe].Columns[abbreviation_canton_and_fl]"
+                      name="abbreviation_canton_and_fl">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases.Outputs[Ausgabe des Aggregats 1].Columns[abbreviation_canton_and_fl]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Sort by max confirmed cases.Outputs[Sortierausgabe].Columns[max_conf]"
+                      dataType="i4"
+                      lineageId="Package\Get max Fallzahlen of cantons\Sort by max confirmed cases.Outputs[Sortierausgabe].Columns[max_conf]"
+                      name="max_conf"
+                      sortKeyPosition="-1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases.Outputs[Ausgabe des Aggregats 1].Columns[max_conf]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB-Ziel;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Alle Rechte vorbehalten; http://www.microsoft.com/sql/support;4"
+              description="OLE DB-Ziel"
+              name="Write to table 'Covid19_Max_Fallzahlen'"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Die Anzahl der Sekunden für das Timeout eines Befehls. Der Wert &quot;0&quot; zeigt einen unendlichen Timeoutwert an."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Gibt den Namen des zum Öffnen eines Rowsets verwendeten Datenbankobjekts an."
+                  name="OpenRowset">[dbo].[Covid19_Max_Fallzahlen]</property>
+                <property
+                  dataType="System.String"
+                  description="Gibt die Variable an, die den Namen des zum Öffnen eines Rowsets verwendeten Datenbankobjekts enthält."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Der auszuführende SQL-Befehl."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Gibt die zu verwendende Spaltencodepage an, wenn keine Codepageinformationen von der Datenquelle verfügbar sind."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Erzwingt die Verwendung des DefaultCodePage-Eigenschaftswerts beim Beschreiben von Zeichendaten."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Gibt den zum Zugreifen auf die Datenbank verwendeten Modus an."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Zeigt an, ob die für Identitätsspalten übergebenen Werte zum Ziel kopiert werden. Bei &quot;False&quot; werden die Werte für Identitätsspalten am Ziel automatisch generiert. Trifft nur zu, wenn die Option &quot;Schnelles Laden&quot; aktiviert ist."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Zeigt an, ob für Spalten, die NULL enthalten, NULL am Ziel eingefügt wird. Bei &quot;False&quot; werden für Spalten, die NULL enthalten, am Ziel die Standardwerte eingefügt. Trifft nur zu, wenn die Option &quot;Schnelles Laden&quot; aktiviert ist."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Gibt die für die Option &quot;Schnelles Laden&quot; zu verwendenden Optionen an. Trifft nur zu, wenn die Option &quot;Schnelles Laden&quot; aktiviert ist."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Gibt an, wann beim Einfügen von Daten Commits ausgegeben werden. Der Wert &quot;0&quot; gibt an, dass ein Commit am Ende des Einfügens von Daten ausgegeben wird. Trifft nur zu, wenn die Option &quot;Schnelles Laden&quot; aktiviert ist."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DAWA-05.Transformation_Aufgabe]"
+                  connectionManagerRefId="Package.ConnectionManagers[DAWA-05.Transformation_Aufgabe]"
+                  description="Die für den Zugriff auf die Datenbank verwendete OLE DB-Laufzeitverbindung."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Inputs[Eingabe des OLE DB-Ziels]"
+                  errorOrTruncationOperation="Einfügen"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Eingabe des OLE DB-Ziels">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Inputs[Eingabe des OLE DB-Ziels].Columns[abbreviation_canton_and_fl]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="abbreviation_canton_and_fl"
+                      externalMetadataColumnId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[abbreviation_canton_and_fl]"
+                      lineageId="Package\Get max Fallzahlen of cantons\Sort by max confirmed cases.Outputs[Sortierausgabe].Columns[abbreviation_canton_and_fl]" />
+                    <inputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Inputs[Eingabe des OLE DB-Ziels].Columns[max_conf]"
+                      cachedDataType="i4"
+                      cachedName="max_conf"
+                      cachedSortKeyPosition="-1"
+                      externalMetadataColumnId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[max_conf]"
+                      lineageId="Package\Get max Fallzahlen of cantons\Sort by max confirmed cases.Outputs[Sortierausgabe].Columns[max_conf]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[id]"
+                      dataType="i4"
+                      name="id" />
+                    <externalMetadataColumn
+                      refId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[abbreviation_canton_and_fl]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="abbreviation_canton_and_fl" />
+                    <externalMetadataColumn
+                      refId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[max_conf]"
+                      dataType="i4"
+                      name="max_conf" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Outputs[Fehlerausgabe des OLE DB-Ziels]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Fehlerausgabe des OLE DB-Ziels"
+                  synchronousInputId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Inputs[Eingabe des OLE DB-Ziels]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Outputs[Fehlerausgabe des OLE DB-Ziels].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Outputs[Fehlerausgabe des OLE DB-Ziels].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Outputs[Fehlerausgabe des OLE DB-Ziels].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Outputs[Fehlerausgabe des OLE DB-Ziels].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Get max Fallzahlen of cantons.Paths[Ausgabe der OLE DB-Quelle]"
+              endId="Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases.Inputs[Eingabe 1 des Aggregats]"
+              name="Ausgabe der OLE DB-Quelle"
+              startId="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle]" />
+            <path
+              refId="Package\Get max Fallzahlen of cantons.Paths[Ausgabe des Aggregats 1]"
+              endId="Package\Get max Fallzahlen of cantons\Sort by max confirmed cases.Inputs[Sortiereingabe]"
+              name="Ausgabe des Aggregats 1"
+              startId="Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases.Outputs[Ausgabe des Aggregats 1]" />
+            <path
+              refId="Package\Get max Fallzahlen of cantons.Paths[Sortierausgabe]"
+              endId="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'.Inputs[Eingabe des OLE DB-Ziels]"
+              name="Sortierausgabe"
+              startId="Package\Get max Fallzahlen of cantons\Sort by max confirmed cases.Outputs[Sortierausgabe]" />
+          </paths>
+        </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -2081,6 +2768,604 @@
               </outputs>
             </component>
             <component
+              refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sortieren;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Alle Rechte vorbehalten; http://www.microsoft.com/sql/support;1"
+              description="Sortiert Eingabedaten in aufsteigender oder absteigender Folge, wenn sie nicht am Quellort sortiert werden können. Sortieren Sie beispielsweise Umsatzzahlen nach &quot;customer id&quot;, bevor sie in eine Flatfile geschrieben und einer anderen Abteilung zur Verfügung gestellt werden. Hinweis: Für umfangreiche Datenflüsse wird diese Transformation nicht empfohlen."
+              name="Sortieren"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Zeigt an, ob die Sortiertransformation Zeilen mit doppelten Sortierwerten entfernt."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Gibt die maximale Anzahl der Threads an, die beim Sortieren verwendet werden können."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe]"
+                  name="Sortiereingabe">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[date]"
+                      cachedDataType="dbDate"
+                      cachedName="date"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[date]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[time]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="time"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[time]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[abbreviation_canton_and_fl]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="abbreviation_canton_and_fl"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[abbreviation_canton_and_fl]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[ncumul_tested]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_tested"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_tested]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[ncumul_conf]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_conf"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[ncumul_hosp]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_hosp"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_hosp]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[ncumul_ICU]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_ICU"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_ICU]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[ncumul_vent]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_vent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_vent]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[ncumul_released]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_released"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_released]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[ncumul_deceased]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ncumul_deceased"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_deceased]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[datetime]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="datetime"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Outputs[Ausgabe der abgeleiteten Spalte].Columns[datetime]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">2</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[int_ncumul_tested]"
+                      cachedDataType="i8"
+                      cachedName="int_ncumul_tested"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_tested]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[int_ncumul_conf]"
+                      cachedDataType="i8"
+                      cachedName="int_ncumul_conf"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_conf]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[int_ncumul_hosp]"
+                      cachedDataType="i8"
+                      cachedName="int_ncumul_hosp"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_hosp]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[int_ncumul_ICU]"
+                      cachedDataType="i8"
+                      cachedName="int_ncumul_ICU"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_ICU]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[int_ncumul_vent]"
+                      cachedDataType="i8"
+                      cachedName="int_ncumul_vent"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_vent]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[int_ncumul_released]"
+                      cachedDataType="i8"
+                      cachedName="int_ncumul_released"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_released]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe].Columns[int_ncumul_deceased]"
+                      cachedDataType="i8"
+                      cachedName="int_ncumul_deceased"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_deceased]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Vergleichsoptionen für Zeichendaten an."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Gibt die Sortierreihenfolge der Spalte an."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe]"
+                  isSorted="true"
+                  name="Sortierausgabe">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[date]"
+                      dataType="dbDate"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[date]"
+                      name="date">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[date]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[time]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[time]"
+                      name="time">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[time]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[abbreviation_canton_and_fl]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[abbreviation_canton_and_fl]"
+                      name="abbreviation_canton_and_fl"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[abbreviation_canton_and_fl]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[ncumul_tested]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[ncumul_tested]"
+                      name="ncumul_tested">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_tested]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[ncumul_conf]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[ncumul_conf]"
+                      name="ncumul_conf">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_conf]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[ncumul_hosp]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[ncumul_hosp]"
+                      name="ncumul_hosp">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_hosp]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[ncumul_ICU]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[ncumul_ICU]"
+                      name="ncumul_ICU">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_ICU]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[ncumul_vent]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[ncumul_vent]"
+                      name="ncumul_vent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_vent]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[ncumul_released]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[ncumul_released]"
+                      name="ncumul_released">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_released]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[ncumul_deceased]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[ncumul_deceased]"
+                      name="ncumul_deceased">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[ncumul_deceased]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[datetime]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[datetime]"
+                      name="datetime"
+                      sortKeyPosition="2">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Outputs[Ausgabe der abgeleiteten Spalte].Columns[datetime]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_tested]"
+                      dataType="i8"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_tested]"
+                      name="int_ncumul_tested">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_tested]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_conf]"
+                      dataType="i8"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_conf]"
+                      name="int_ncumul_conf">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_conf]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_hosp]"
+                      dataType="i8"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_hosp]"
+                      name="int_ncumul_hosp">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_hosp]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_ICU]"
+                      dataType="i8"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_ICU]"
+                      name="int_ncumul_ICU">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_ICU]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_vent]"
+                      dataType="i8"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_vent]"
+                      name="int_ncumul_vent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_vent]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_released]"
+                      dataType="i8"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_released]"
+                      name="int_ncumul_released">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_released]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_deceased]"
+                      dataType="i8"
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_deceased]"
+                      name="int_ncumul_deceased">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Gibt den Herkunftsbezeichner der Eingabespalte an, die dieser Ausgabespalte zugeordnet ist."
+                          name="SortColumnId">#{Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_deceased]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
               refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB-Ziel;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; Alle Rechte vorbehalten; http://www.microsoft.com/sql/support;4"
@@ -2158,56 +3443,58 @@
                       cachedDataType="str"
                       cachedLength="2"
                       cachedName="abbreviation_canton_and_fl"
+                      cachedSortKeyPosition="1"
                       externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[abbreviation_canton_and_fl]"
-                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle].Columns[abbreviation_canton_and_fl]" />
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[abbreviation_canton_and_fl]" />
                     <inputColumn
                       refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].Columns[datetime]"
                       cachedDataType="dbTimeStamp"
                       cachedName="datetime"
+                      cachedSortKeyPosition="2"
                       externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[datetime]"
-                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Outputs[Ausgabe der abgeleiteten Spalte].Columns[datetime]" />
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[datetime]" />
                     <inputColumn
                       refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].Columns[int_ncumul_tested]"
                       cachedDataType="i8"
                       cachedName="int_ncumul_tested"
                       externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_tested]"
-                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_tested]" />
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_tested]" />
                     <inputColumn
                       refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].Columns[int_ncumul_conf]"
                       cachedDataType="i8"
                       cachedName="int_ncumul_conf"
                       externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_conf]"
-                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_conf]" />
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_conf]" />
                     <inputColumn
                       refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].Columns[int_ncumul_hosp]"
                       cachedDataType="i8"
                       cachedName="int_ncumul_hosp"
                       externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_hosp]"
-                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_hosp]" />
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_hosp]" />
                     <inputColumn
                       refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].Columns[int_ncumul_ICU]"
                       cachedDataType="i8"
                       cachedName="int_ncumul_ICU"
                       externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_ICU]"
-                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_ICU]" />
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_ICU]" />
                     <inputColumn
                       refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].Columns[int_ncumul_vent]"
                       cachedDataType="i8"
                       cachedName="int_ncumul_vent"
                       externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_vent]"
-                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_vent]" />
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_vent]" />
                     <inputColumn
                       refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].Columns[int_ncumul_released]"
                       cachedDataType="i8"
                       cachedName="int_ncumul_released"
                       externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_released]"
-                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_released]" />
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_released]" />
                     <inputColumn
                       refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].Columns[int_ncumul_deceased]"
                       cachedDataType="i8"
                       cachedName="int_ncumul_deceased"
                       externalMetadataColumnId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels].ExternalColumns[ncumul_deceased]"
-                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung].Columns[int_ncumul_deceased]" />
+                      lineageId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe].Columns[int_ncumul_deceased]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -2300,7 +3587,7 @@
               startId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time.Outputs[Ausgabe der abgeleiteten Spalte]" />
             <path
               refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der Datenkonvertierung]"
-              endId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels]"
+              endId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Inputs[Sortiereingabe]"
               name="Ausgabe der Datenkonvertierung"
               startId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types.Outputs[Ausgabe der Datenkonvertierung]" />
             <path
@@ -2308,6 +3595,11 @@
               endId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Replace double quotes.Inputs[Eingabe der abgeleiteten Spalte]"
               name="Ausgabe der OLE DB-Quelle"
               startId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Import Covid-19 Fallzahlen.Outputs[Ausgabe der OLE DB-Quelle]" />
+            <path
+              refId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Sortierausgabe]"
+              endId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table.Inputs[Eingabe des OLE DB-Ziels]"
+              name="Sortierausgabe"
+              startId="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren.Outputs[Sortierausgabe]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -2325,7 +3617,7 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
-      DTS:DTSID="{28A1D569-1F37-4721-A422-9B07DA71A993}"
+      DTS:DTSID="{B0D3D09D-C1A8-4F41-97D0-0CCC755F8B7F}"
       DTS:From="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
@@ -2338,6 +3630,22 @@
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 2"
       DTS:To="Package\Split by canton" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{AEB6759B-1B28-4EEB-9404-1DA63F64B1BD}"
+      DTS:From="Package\Split by canton"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Create table 'Covid19_Max_Fallzahlen' if not exist" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{2FE74CB4-83F7-46BA-BBCA-E2B7BD891A76}"
+      DTS:From="Package\Create table 'Covid19_Max_Fallzahlen' if not exist"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Get max Fallzahlen of cantons" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -2350,7 +3658,7 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="356,42"
           Id="Package\Create table 'Covid19_Fallzahlen_Transformiert' if not exist"
@@ -2358,10 +3666,10 @@
         <NodeLayout
           Size="356,42"
           Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB"
-          TopLeft="174,137" />
+          TopLeft="175,137" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="350.5,101">
+          TopLeft="351,101">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -2384,25 +3692,25 @@
         <NodeLayout
           Size="149,42"
           Id="Package\Split by canton"
-          TopLeft="279,311" />
+          TopLeft="283,299" />
         <NodeLayout
           Size="348,42"
           Id="Package\Create tables 'Covid19_Fallzahlen_Kanton_XX' if not exist"
-          TopLeft="175,222" />
+          TopLeft="180,216" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="350.5,179">
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="355.75,258">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,43"
+              EndConnector="0,41"
               Start="0,0"
-              End="0,35.5">
+              End="0,33.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,35.5" />
+                    End="0,33.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2412,19 +3720,71 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="351.25,264">
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="353.5,179">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,47"
+              EndConnector="0,37"
               Start="0,0"
-              End="0,39.5">
+              End="0,29.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,39.5" />
+                    End="0,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="311,42"
+          Id="Package\Create table 'Covid19_Max_Fallzahlen' if not exist"
+          TopLeft="208,373" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="360.5,341">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,32"
+              Start="0,0"
+              End="0,24.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="221,42"
+          Id="Package\Get max Fallzahlen of cantons"
+          TopLeft="249,459" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="361.5,415">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2440,7 +3800,7 @@
     design-time-name="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="177,42"
           Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Merge date and time"
@@ -2526,21 +3886,21 @@
         <NodeLayout
           Size="168,42"
           Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Convert data types"
-          TopLeft="203,324" />
+          TopLeft="205,314" />
         <EdgeLayout
           Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der abgeleiteten Spalte2]"
-          TopLeft="286.25,284">
+          TopLeft="287.25,284">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,40"
+              EndConnector="0,30"
               Start="0,0"
-              End="0,32.5">
+              End="0,22.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,32.5" />
+                    End="0,22.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2552,29 +3912,53 @@
         <NodeLayout
           Size="143,42"
           Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Write to table"
-          TopLeft="219,407" />
+          TopLeft="214,465" />
+        <NodeLayout
+          Size="122,42"
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB\Sortieren"
+          TopLeft="229,391" />
         <EdgeLayout
           Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Ausgabe der Datenkonvertierung]"
-          TopLeft="288.75,366">
+          TopLeft="289.5,356">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,41"
+              EndConnector="0,35"
               Start="0,0"
-              End="0,33.5">
+              End="0,27.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,33.5" />
+                    End="0,27.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-8,8.75,16,16"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Transform and Load Covid-19 Fallzahlen from MyImportDB.Paths[Sortierausgabe]"
+          TopLeft="287.75,433">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,32"
+              Start="0,0"
+              End="0,24.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -2752,6 +4136,122 @@
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Split by canton\Write to table LU">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Get max Fallzahlen of cantons">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="266,42"
+          Id="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen"
+          TopLeft="163,55" />
+        <NodeLayout
+          Size="331,42"
+          Id="Package\Get max Fallzahlen of cantons\Group by canton and aggregate max confirmed cases"
+          TopLeft="123,141" />
+        <EdgeLayout
+          Id="Package\Get max Fallzahlen of cantons.Paths[Ausgabe der OLE DB-Quelle]"
+          TopLeft="292.25,97">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="215,42"
+          Id="Package\Get max Fallzahlen of cantons\Sort by max confirmed cases"
+          TopLeft="188,218" />
+        <EdgeLayout
+          Id="Package\Get max Fallzahlen of cantons.Paths[Ausgabe des Aggregats 1]"
+          TopLeft="292,183">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35"
+              Start="0,0"
+              End="0,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="266,42"
+          Id="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'"
+          TopLeft="164,306" />
+        <EdgeLayout
+          Id="Package\Get max Fallzahlen of cantons.Paths[Sortierausgabe]"
+          TopLeft="296.25,260">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Get max Fallzahlen of cantons\Import transformed Covid-19 Fallzahlen">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Get max Fallzahlen of cantons\Write to table 'Covid19_Max_Fallzahlen'">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
